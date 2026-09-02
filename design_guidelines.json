@@ -1,0 +1,144 @@
+{
+  "project_name": "WriteQuest — Writer's Quest Blueprint Kit Landing Page",
+  "app_type": "landing_page_with_conversion_funnel",
+  "design_archetype": "TACTILE_WORKING_NOTEBOOK",
+  "brand_identity": {
+    "concept": "Tactile Working Notebook & Literary Craft Studio",
+    "tone": "Intellectual, authoritative, tactile, deeply inspiring, structured",
+    "hook": "You have a story. You don't have a system.",
+    "sub_hook": "Transform chaotic flashes of inspiration into a publishable manuscript with the beat-by-beat blueprint system built for serious novelists and screenwriters."
+  },
+  "color_system": {
+    "background_primary": "#F9F7F1",
+    "background_secondary": "#F3EDE2",
+    "surface_paper": "#FFFFFF",
+    "ink_black": "#1F2022",
+    "ink_muted": "#52504C",
+    "craft_border": "#E5DFD3",
+    "craft_border_dark": "#D4C8B5",
+    "red_margin_note": "#C83B2D",
+    "highlighter_yellow": "#F2E29F",
+    "highlighter_soft_yellow": "#FFF7CD",
+    "accent_sepia": "#8C6D4F",
+    "accent_sepia_light": "#FAF6EE"
+  },
+  "typography": {
+    "font_family_heading": "'Playfair Display', 'Cormorant Garamond', Georgia, serif",
+    "font_family_body": "'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    "font_family_mono": "'JetBrains Mono', 'Courier New', monospace",
+    "font_family_handwriting": "'Caveat', 'Dancing Script', cursive",
+    "hierarchy": {
+      "h1_hero": "text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]",
+      "h2_section": "text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight leading-snug",
+      "h3_subsection": "text-xl sm:text-2xl font-medium leading-snug",
+      "body_lead": "text-lg sm:text-xl text-[#52504C] leading-relaxed font-normal",
+      "body_standard": "text-base text-[#1F2022] leading-relaxed",
+      "caption_mono": "text-xs font-mono uppercase tracking-[0.2em] text-[#8C6D4F]",
+      "margin_annotation": "font-handwriting text-base sm:text-lg text-[#C83B2D] -rotate-2"
+    }
+  },
+  "layout_and_spacing": {
+    "grid_system": "Strict 8pt grid system using standard Tailwind increments (p-2, p-4, p-6, p-8, p-12, p-16, p-24)",
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "notebook_margins": "Relative margin line on left edge (border-l-2 border-[#C83B2D]/30 pl-4 sm:pl-8)",
+    "border_style": "1px solid #E5DFD3 with subtle rounded corners (rounded-lg or rounded-xl) resembling bound stationery",
+    "shadow_style": "Tactile layered paper shadow: shadow-[0_4px_20px_rgba(31,32,34,0.06),0_1px_3px_rgba(31,32,34,0.04)]"
+  },
+  "key_components": [
+    {
+      "name": "Header & Navigation",
+      "description": "Sticky paper header with backdrop blur, brand emblem, progress indicator, and quick Buy CTA button",
+      "features": ["Logo emblem with fountain pen nib icon", "Frameworks, Manifestos, Preview links", "Razorpay quick trigger CTA button"]
+    },
+    {
+      "name": "Kinetic Masked Hero",
+      "description": "High-impact hero section with line-by-line staggered text reveal, interactive 3D/Parallax story notebook card tilt, red margin notes, and primary CTA",
+      "features": ["Masked line-by-line reveal animation", "3D Interactive Notebook Card Preview", "Highlighter marker tag", "Live reader counter badge"]
+    },
+    {
+      "name": "Editorial Marquee",
+      "description": "Slow, elegant kinetic texture ribbon featuring quotes from legendary story architects and key principles",
+      "features": ["Slow motion speed", "Low-contrast sepia tone styling", "Serif typography with bullet separators"]
+    },
+    {
+      "name": "Interactive 4-Framework Showcase",
+      "description": "Deep-dive tabbed or card-based interactive engine comparing Three-Act Structure, Hero's Journey, Save the Cat, and Dan Harmon's Story Circle",
+      "features": ["Beat-by-beat stage viewer", "Example manuscript breakdowns", "Interactive beat toggles", "Downloadable blueprint cheat sheet indicator"]
+    },
+    {
+      "name": "Numbered Manifesto Chapters",
+      "description": "Editorial chapter cards detailing the 5 principles of the WriteQuest methodology",
+      "features": ["Large chapter numbers (01, 02, 03...)", "Red ink annotations", "Highlighter accents on core thesis lines"]
+    },
+    {
+      "name": "Product Preview Gallery with Zoom Modals",
+      "description": "Interactive showcase of digital assets included in the blueprint kit: Notion Master Dashboard, Printable Plotting Worksheets, Excel Beat Tracker, Character Arc Matrix",
+      "features": ["Interactive tabs/filters", "High-res screenshot cards with spotlight zoom button", "Full-screen Dialog/Modal preview with annotations"]
+    },
+    {
+      "name": "What's Inside Component Breakdown",
+      "description": "Detailed grid inventory of every file, template, guide, and prompt system in the ₹599 kit",
+      "features": ["File format badges (.Notion, .PDF, .XLSX, .DOCX)", "Checkmark feature list", "Estimated value contrast tags"]
+    },
+    {
+      "name": "Single-Tier Pricing Card",
+      "description": "High-conversion pricing box anchored at ₹599 (INR) with instant Razorpay checkout button, 100% money-back guarantee seal, and value breakdown",
+      "features": ["Razorpay SDK integration / mock fallback trigger", "Instant asset delivery badge", "Included bonuses checklist", "Lifetime access indicator"]
+    },
+    {
+      "name": "Sticky Mobile Conversion Bar",
+      "description": "Fixed bottom bar on mobile screens (< 768px) with quick price tag and Checkout button",
+      "features": ["Auto-hides in hero, pops up on scroll", "Price tag: ₹599", "Direct Razorpay checkout call"]
+    },
+    {
+      "name": "FAQ Accordion",
+      "description": "Collapsible accordion addressing common author questions regarding tools, compatibility, refund policy, and delivery",
+      "features": ["Search/filter or categorical tabs", "Smooth height expansion animation", "Support contact trigger"]
+    },
+    {
+      "name": "Order Success State & Delivery Log Modal",
+      "description": "Fulfillment screen displaying instantaneous access links for Notion, PDF, and XLSX templates along with mocked delivery log email details",
+      "features": ["Order confirmation summary", "Direct single-click asset download buttons", "Mocked email delivery timestamp & log toggle"]
+    }
+  ],
+  "motion_and_effects": {
+    "smooth_scrolling": "Lenis smooth scroll integration",
+    "animations": "Framer motion entrance reveals with staggered line text masking",
+    "hover_states": "Tactile lift effect (hover:-translate-y-1 hover:shadow-xl transition-all duration-300)",
+    "highlighter_effect": "CSS background yellow mark behind key headline text"
+  },
+  "media_assets": {
+    "fountain_pen_image": "https://images.unsplash.com/photo-1473186505569-9c61870c11f9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxNzV8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwam91cm5hbCUyMG5vdGVib29rJTIwZm91bnRhaW4lMjBwZW4lMjBtYW51c2NyaXB0JTIwd3JpdGluZ3xlbnwwfHx8fDE3ODgzMjQ4MDZ8MA&ixlib=rb-4.1.0&q=85",
+    "vintage_manuscript_image": "https://images.unsplash.com/photo-1447069387593-a5de0862481e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxNzV8MHwxfHNlYXJjaHwzfHx2aW50YWdlJTIwam91cm5hbCUyMG5vdGVib29rJTIwZm91bnRhaW4lMjBwZW4lMjBtYW51c2NyaXB0JTIwd3JpdGluZ3xlbnwwfHx8fDE3ODgzMjQ4MDZ8MA&ixlib=rb-4.1.0&q=85",
+    "open_notebook_image": "https://images.unsplash.com/photo-1462642109801-4ac2971a3a51?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxNzV8MHwxfHNlYXJjaHwyfHx2aW50YWdlJTIwam91cm5hbCUyMG5vdGVib29rJTIwZm91bnRhaW4lMjBwZW4lMjBtYW51c2NyaXB0JTIwd3JpdGluZ3xlbnwwfHx8fDE3ODgzMjQ4MDZ8MA&ixlib=rb-4.1.0&q=85",
+    "leather_journal_image": "https://images.unsplash.com/photo-1709039549252-179925870591?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxNzV8MHwxfHNlYXJjaHw0fHx2aW50YWdlJTIwam91cm5hbCUyMG5vdGVib29rJTIwZm91bnRhaW4lMjBwZW4lMjBtYW51c2NyaXB0JTIwd3JpdGluZ3xlbnwwfHx8fDE3ODgzMjQ4MDZ8MA&ixlib=rb-4.1.0&q=85"
+  },
+  "testing_and_accessibility": {
+    "wcag_level": "WCAG AA compliant contrast ratios across parchment and ink elements",
+    "data_testid_policy": "All key interactive buttons, tabs, inputs, cards, and modals MUST contain explicit data-testid attributes",
+    "key_testids": [
+      "data-testid='header-brand-logo'",
+      "data-testid='header-buy-button'",
+      "data-testid='hero-headline'",
+      "data-testid='hero-cta-button'",
+      "data-testid='framework-tab-three-act'",
+      "data-testid='framework-tab-heros-journey'",
+      "data-testid='framework-tab-save-the-cat'",
+      "data-testid='framework-tab-story-circle'",
+      "data-testid='gallery-zoom-trigger'",
+      "data-testid='pricing-card'",
+      "data-testid='checkout-button'",
+      "data-testid='sticky-mobile-bar'",
+      "data-testid='faq-accordion-item'",
+      "data-testid='order-success-container'"
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Strictly adhere to the tactile working notebook aesthetic using parchment #F9F7F1 background, ink black #1F2022 typography, red pen #C83B2D margin notes, and highlighter yellow #F2E29F accents.",
+    "Implement Framer Motion entrance animations with line-by-line masked text reveals in the Hero section.",
+    "Support single-tier pricing at ₹599 INR with Razorpay integration and mocked order completion flow.",
+    "Include zoom modals for the product gallery images (Notion dashboard, printable worksheets, Excel tracker).",
+    "Ensure all interactive components have explicit data-testid attributes.",
+    "Implement Lenis smooth scrolling for high-end feel."
+  ]
+}
