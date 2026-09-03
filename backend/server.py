@@ -3,7 +3,6 @@ import hmac
 import os
 import logging
 import uuid
-from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -15,7 +14,7 @@ from starlette.middleware.cors import CORSMiddleware
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-from lib.db import client, db
+from lib.sheets import append_event, sheets_configured
 
 logger = logging.getLogger(__name__)
 
@@ -41,14 +40,11 @@ ASSETS = [
     {"name": "Explainer Videos", "format": "VIDEO", "url": "#walkthroughs", "note": "Walkthroughs for every template"},
 ]
 
+# No database: orders live in memory for the running process (enough for signature
+# verification + idempotent success screens); the Google Sheet is the durable record.
+ORDERS: dict = {}
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    yield
-    client.close()
-
-
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 api_router = APIRouter(prefix="/api")
 
 
@@ -72,14 +68,13 @@ class LeadRequest(BaseModel):
     source: str = "landing"
 
 
-def serialize_order(doc: dict) -> dict:
-    doc.pop("_id", None)
-    return doc
-
-
 @api_router.get("/")
 async def root():
-    return {"message": "WriteQuest API", "payments": "mock" if MOCK_MODE else "razorpay"}
+    return {
+        "message": "WriteQuest API",
+        "payments": "mock" if MOCK_MODE else "razorpay",
+        "order_log": "google-sheets" if sheets_configured() else "server-logs-only",
+    }
 
 
 @api_router.get("/checkout/config")
@@ -106,7 +101,7 @@ async def create_order(payload: CreateOrderRequest):
             "payment_capture": 1,
         })
         order_id = rp_order["id"]
-    doc = {
+    ORDERS[order_id] = {
         "order_id": order_id,
         "receipt": receipt,
         "email": payload.email,
@@ -118,7 +113,7 @@ async def create_order(payload: CreateOrderRequest):
         "created_at": utcnow(),
         "updated_at": utcnow(),
     }
-    await db.orders.insert_one(doc)
+    await append_event("orders", [utcnow(), "created", order_id, "", payload.email, AMOUNT_PAISE])
     return {
         "order_id": order_id,
         "amount_paise": AMOUNT_PAISE,
@@ -130,9 +125,11 @@ async def create_order(payload: CreateOrderRequest):
 
 @api_router.post("/checkout/verify")
 async def verify_payment(payload: VerifyRequest):
-    order = await db.orders.find_one({"order_id": payload.order_id})
+    order = ORDERS.get(payload.order_id)
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
+    if order["status"] == "paid":
+        return {**order, "assets": ASSETS}
     if MOCK_MODE:
         verified = True
     else:
@@ -140,34 +137,32 @@ async def verify_payment(payload: VerifyRequest):
         expected = hmac.new(RAZORPAY_KEY_SECRET.encode(), body.encode(), hashlib.sha256).hexdigest()
         verified = hmac.compare_digest(expected, payload.signature)
     if not verified:
-        await db.orders.update_one(
-            {"order_id": payload.order_id},
-            {"$set": {"status": "signature_failed", "updated_at": utcnow()}},
-        )
+        order["status"] = "signature_failed"
+        order["updated_at"] = utcnow()
+        await append_event("orders", [utcnow(), "failed", payload.order_id, payload.payment_id, payload.email, AMOUNT_PAISE])
         raise HTTPException(status_code=400, detail="Payment signature verification failed")
-    delivery_entry = {
+    order["status"] = "paid"
+    order["payment_id"] = payload.payment_id
+    order["updated_at"] = utcnow()
+    order["delivery_log"].append({
         "channel": "email",
         "status": "mocked",
         "timestamp": utcnow(),
         "detail": f"Delivery email to {payload.email} is logged only — no email provider connected yet.",
-    }
-    await db.orders.update_one(
-        {"order_id": payload.order_id},
-        {
-            "$set": {"status": "paid", "payment_id": payload.payment_id, "updated_at": utcnow()},
-            "$push": {"delivery_log": delivery_entry},
-        },
-    )
-    updated = await db.orders.find_one({"order_id": payload.order_id})
-    return {**serialize_order(updated), "assets": ASSETS}
+    })
+    await append_event("orders", [utcnow(), "paid", payload.order_id, payload.payment_id, payload.email, AMOUNT_PAISE])
+    return {**order, "assets": ASSETS}
 
 
 @api_router.get("/orders/{order_id}")
 async def get_order(order_id: str):
-    order = await db.orders.find_one({"order_id": order_id})
+    order = ORDERS.get(order_id)
     if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    result = serialize_order(order)
+        raise HTTPException(
+            status_code=404,
+            detail="Order not found on this server — the Google Sheet order log is the durable record",
+        )
+    result = dict(order)
     if result.get("status") == "paid":
         result["assets"] = ASSETS
     return result
@@ -180,41 +175,26 @@ async def razorpay_webhook(request: Request):
     if RAZORPAY_WEBHOOK_SECRET:
         expected = hmac.new(RAZORPAY_WEBHOOK_SECRET.encode(), body, hashlib.sha256).hexdigest()
         if not hmac.compare_digest(expected, signature):
-            await db.webhook_logs.insert_one({
-                "event": "unverified",
-                "reason": "bad_signature",
-                "timestamp": utcnow(),
-                "retryable": True,
-            })
+            await append_event("webhook_logs", [utcnow(), "unverified", "", "bad_signature — retryable"])
             raise HTTPException(status_code=400, detail="Invalid webhook signature")
     payload = await request.json()
     event = payload.get("event", "unknown")
     payment_entity = payload.get("payload", {}).get("payment", {}).get("entity", {})
-    order_id = payment_entity.get("order_id")
-    await db.webhook_logs.insert_one({
-        "event": event,
-        "order_id": order_id,
-        "timestamp": utcnow(),
-        "retryable": False,
-    })
+    order_id = payment_entity.get("order_id", "")
+    await append_event("webhook_logs", [utcnow(), event, order_id, "processed"])
     if event == "payment.captured" and order_id:
-        await db.orders.update_one(
-            {"order_id": order_id},
-            {"$set": {"status": "paid", "payment_id": payment_entity.get("id"), "updated_at": utcnow()}},
-        )
+        order = ORDERS.get(order_id)
+        if order and order["status"] != "paid":
+            order["status"] = "paid"
+            order["payment_id"] = payment_entity.get("id", "")
+            order["updated_at"] = utcnow()
+            await append_event("orders", [utcnow(), "paid (webhook)", order_id, order["payment_id"], order["email"], AMOUNT_PAISE])
     return {"status": "processed"}
 
 
 @api_router.post("/leads")
 async def capture_lead(payload: LeadRequest):
-    await db.leads.update_one(
-        {"email": payload.email},
-        {
-            "$set": {"email": payload.email, "source": payload.source, "updated_at": utcnow()},
-            "$setOnInsert": {"created_at": utcnow()},
-        },
-        upsert=True,
-    )
+    await append_event("leads", [utcnow(), payload.email, payload.source])
     return {"status": "captured"}
 
 

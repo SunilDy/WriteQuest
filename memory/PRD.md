@@ -17,6 +17,13 @@ Mobile-first high-conversion landing page & digital asset fulfillment system sel
 ## Core Requirements (static)
 Hero hook "You have a story. You don't have a system.", product preview gallery with zoom modals, interactive 4-framework showcase (Three-Act, Hero's Journey, Save the Cat, Story Circle), single-tier ₹599 pricing card, sticky mobile conversion bar (48px+ targets), Razorpay checkout + lead capture, FAQ accordion, order records in MongoDB, delivery log, failed-webhook recovery logging.
 
+## Implemented (2026-09-03 — MongoDB removed, Google Sheets order log)
+- MongoDB fully removed from the backend (no motor/db usage; lib/db.py unused).
+- New lib/sheets.py: service-account Google Sheets appender (google-api-python-client + google-auth). Tabs: `orders` (created/paid/failed rows: timestamp, event, order ID, payment ID, email, amount in paise), `leads`, `webhook_logs`.
+- Orders held in memory for the running process (signature verification + idempotent success screen); the Google Sheet is the durable record. Sheet appends never block or break checkout (try/except + asyncio.to_thread).
+- Until GOOGLE_SERVICE_ACCOUNT_JSON + GOOGLE_SHEETS_SPREADSHEET_ID are set in backend/.env, events fall back to server logs (`[sheet:tab] ...` lines) — verified working.
+- `/api/` now reports `order_log: google-sheets | server-logs-only`.
+
 ## Implemented (2026-09-03 — corrected product description update)
 - Page restructured to the prescribed 8-part order: Hero (story-arc SVG mark as visual anchor, no stock photography) → marquee → Who it's for (3 audiences incl. Pratilipi/Matrubharti) → Peek inside the system (6 dashboard sections in browser chrome + 4 cross-cutting tools, zoom modals) → How you'll actually use it (one story-arc diagram + one-line caption per framework) → Pricing (single ₹599 card, trust microcopy "No subscription · One-time purchase · Instant access", highlighter-fill CTA) → Format flexibility (Notion/paper/Excel blocks with explicit no-parity honesty note) → FAQ (5 prescribed questions) → Final CTA (repeat headline + CTA + microcopy).
 - Copy corrections: hub-and-spoke Notion system (central Writing Dashboard, 6 linked sections, one dedicated plot database per framework, Scene Planner Kanban + Acts views, Quick Action Buttons, Chapters database, per-framework todo lists). Removed: "four modules each with its own dashboard", unified-beat-map claims, auto cross-link claims, printable/Excel parity claims, ₹2,645 value anchor, "120-page workbook", "lifetime updates", invented "7-day refund" and Field Note testimonial.
@@ -41,6 +48,7 @@ Hero hook "You have a story. You don't have a system.", product preview gallery 
 - Lenis smooth scrolling + grain overlay + full data-testid coverage.
 
 ## Backlog
+- P0: Activate Google Sheets logging: user pastes service-account JSON + spreadsheet ID → set env vars → create sheet tabs `orders`, `leads`, `webhook_logs` → share sheet with service-account email as Editor.
 - P0: Drop real Razorpay test/live keys into backend/.env + register webhook URL; attach real asset download URLs/files.
 - P1: Resend email delivery (managed integration) replacing the MOCKED delivery log.
 - P1: Exit-intent lead capture modal offering sample 1-page beat sheet PDF (leads endpoint already exists).
