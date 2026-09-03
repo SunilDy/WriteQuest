@@ -17,6 +17,14 @@ Mobile-first high-conversion landing page & digital asset fulfillment system sel
 ## Core Requirements (static)
 Hero hook "You have a story. You don't have a system.", product preview gallery with zoom modals, interactive 4-framework showcase (Three-Act, Hero's Journey, Save the Cat, Story Circle), single-tier ₹599 pricing card, sticky mobile conversion bar (48px+ targets), Razorpay checkout + lead capture, FAQ accordion, order records in MongoDB, delivery log, failed-webhook recovery logging.
 
+## Implemented (2026-09-03 — Brevo delivery email, user's own account)
+- lib/email.py: Brevo transactional email via REST (POST api.brevo.com/v3/smtp/email, api-key header, httpx async). Branded HTML template (parchment/ink/red-pen) with order summary + 4 asset links.
+- Wired into both payment paths: /checkout/verify success and webhook payment.captured, via idempotent deliver_order() (skips if already sent; never breaks checkout; failure recorded).
+- Delivery outcomes recorded on the order (email_status: sent/failed/mocked, Brevo messageId in delivery_log) and appended to the Sheet's orders tab as email_sent/email_failed rows.
+- Verified live: real purchase → Brevo accepted (messageId <202609031253.*@smtp-relay.mailin.fr>) to sunildyofficial@gmail.com; success screen shows [sent]; sheet shows created → paid → email_sent.
+- Env: BREVO_API_KEY, BREVO_SENDER_EMAIL=sunildyofficial@gmail.com, BREVO_SENDER_NAME=WriteQuest. Server IP 34.16.56.64 authorised in Brevo (preview egress IP — production deploy may need its own IP authorised).
+- NOTE: asset download links in the email point to site anchors until final kit files/URLs are provided.
+
 ## Implemented (2026-09-03 — MongoDB removed, Google Sheets order log)
 - MongoDB fully removed from the backend (no motor/db usage; lib/db.py unused).
 - New lib/sheets.py: service-account Google Sheets appender (google-api-python-client + google-auth). Tabs: `orders` (created/paid/failed rows: timestamp, event, order ID, payment ID, email, amount in paise), `leads`, `webhook_logs`.

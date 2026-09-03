@@ -15,6 +15,7 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 from lib.sheets import append_event, sheets_configured
+from lib.email import send_delivery_email, email_configured
 
 logger = logging.getLogger(__name__)
 
@@ -68,12 +69,49 @@ class LeadRequest(BaseModel):
     source: str = "landing"
 
 
+async def deliver_order(order: dict) -> None:
+    """Send the delivery email via Brevo. Never raises — outcome is recorded on the
+    order and in the sheet so a paid buyer is never silently unfulfilled."""
+    if order.get("email_status") == "sent":
+        return
+    if not email_configured():
+        order["email_status"] = "mocked"
+        order["delivery_log"].append({
+            "channel": "email",
+            "status": "mocked",
+            "timestamp": utcnow(),
+            "detail": f"Delivery email to {order['email']} is logged only — email provider not configured.",
+        })
+        return
+    try:
+        message_id = await send_delivery_email(order, ASSETS)
+        order["email_status"] = "sent"
+        order["delivery_log"].append({
+            "channel": "email",
+            "status": "sent",
+            "timestamp": utcnow(),
+            "detail": f"Delivery email sent to {order['email']} via Brevo (message {message_id}).",
+        })
+        await append_event("orders", [utcnow(), "email_sent", order["order_id"], order.get("payment_id", ""), order["email"], order["amount_paise"]])
+    except Exception as exc:
+        logger.exception("Delivery email failed for %s", order["order_id"])
+        order["email_status"] = "failed"
+        order["delivery_log"].append({
+            "channel": "email",
+            "status": "failed",
+            "timestamp": utcnow(),
+            "detail": f"Delivery email to {order['email']} failed: {exc}",
+        })
+        await append_event("orders", [utcnow(), "email_failed", order["order_id"], order.get("payment_id", ""), order["email"], order["amount_paise"]])
+
+
 @api_router.get("/")
 async def root():
     return {
         "message": "WriteQuest API",
         "payments": "mock" if MOCK_MODE else "razorpay",
         "order_log": "google-sheets" if sheets_configured() else "server-logs-only",
+        "email": "brevo" if email_configured() else "mocked",
     }
 
 
@@ -109,6 +147,7 @@ async def create_order(payload: CreateOrderRequest):
         "currency": CURRENCY,
         "status": "created",
         "mock": MOCK_MODE,
+        "email_status": "not_sent",
         "delivery_log": [],
         "created_at": utcnow(),
         "updated_at": utcnow(),
@@ -144,13 +183,8 @@ async def verify_payment(payload: VerifyRequest):
     order["status"] = "paid"
     order["payment_id"] = payload.payment_id
     order["updated_at"] = utcnow()
-    order["delivery_log"].append({
-        "channel": "email",
-        "status": "mocked",
-        "timestamp": utcnow(),
-        "detail": f"Delivery email to {payload.email} is logged only — no email provider connected yet.",
-    })
     await append_event("orders", [utcnow(), "paid", payload.order_id, payload.payment_id, payload.email, AMOUNT_PAISE])
+    await deliver_order(order)
     return {**order, "assets": ASSETS}
 
 
@@ -188,7 +222,8 @@ async def razorpay_webhook(request: Request):
             order["status"] = "paid"
             order["payment_id"] = payment_entity.get("id", "")
             order["updated_at"] = utcnow()
-            await append_event("orders", [utcnow(), "paid (webhook)", order_id, order["payment_id"], order["email"], AMOUNT_PAISE])
+            await append_event("orders", [utcnow(), "paid (webhook)", order_id, order["payment_id"], order["email"], order["amount_paise"]])
+            await deliver_order(order)
     return {"status": "processed"}
 
 
