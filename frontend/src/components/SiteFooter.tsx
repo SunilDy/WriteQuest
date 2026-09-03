@@ -25,9 +25,9 @@ export function SiteFooter() {
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-parchment/40">The Kit</p>
               <div className="mt-4 flex flex-col gap-2.5 text-sm">
                 {[
+                  { label: "Who it's for", id: "who" },
+                  { label: "Peek inside", id: "preview" },
                   { label: "Frameworks", id: "frameworks" },
-                  { label: "Manifesto", id: "manifesto" },
-                  { label: "Preview", id: "preview" },
                   { label: "Pricing", id: "pricing" },
                   { label: "FAQ", id: "faq" },
                 ].map((l) => (
@@ -45,9 +45,9 @@ export function SiteFooter() {
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-parchment/40">Promise</p>
               <div className="mt-4 flex flex-col gap-2.5 text-sm text-parchment/70">
-                <span>7-day refund</span>
-                <span>Lifetime updates</span>
-                <span>Instant delivery</span>
+                <span>One-time purchase</span>
+                <span>Instant access</span>
+                <span>Yours to keep</span>
               </div>
             </div>
           </nav>

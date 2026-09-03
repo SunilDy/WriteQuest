@@ -35,10 +35,10 @@ if not MOCK_MODE:
     razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
 ASSETS = [
-    {"name": "Notion Master Dashboard", "format": "NOTION", "url": "#notion-template", "note": "Duplicate-link delivered with purchase"},
-    {"name": "Printable Plotting Workbook", "format": "PDF", "url": "#workbook-pdf", "note": "120-page A4 / US-Letter printable"},
-    {"name": "Excel Beat Tracker", "format": "XLSX", "url": "#beat-tracker", "note": "Auto-calculating 4-structure beat sheet"},
-    {"name": "Video Walkthrough Series", "format": "VIDEO", "url": "#walkthroughs", "note": "6 guided setup sessions"},
+    {"name": "Notion Writing Dashboard", "format": "NOTION", "url": "#notion-template", "note": "The full hub-and-spoke system, all 4 frameworks"},
+    {"name": "Printable Workbooks", "format": "PDF", "url": "#workbook-pdf", "note": "Pen-friendly, beat by beat"},
+    {"name": "Excel-Sheet Version", "format": "XLSX", "url": "#excel-version", "note": "Plan your draft without Notion"},
+    {"name": "Explainer Videos", "format": "VIDEO", "url": "#walkthroughs", "note": "Walkthroughs for every template"},
 ]
 
 

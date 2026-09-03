@@ -3,9 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform, useScroll } from "moti
 import { ArrowRight, ArrowDown, Flame } from "lucide-react";
 import { EASE } from "@/components/Reveal";
 import { scrollToSection } from "@/components/SiteHeader";
-
-const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1473186505569-9c61870c11f9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxNzV8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwam91cm5hbCUyMG5vdGVib29rJTIwZm91bnRhaW4lMjBwZW4lMjBtYW51c2NyaXB0JTIwd3JpdGluZ3xlbnwwfHx8fDE3ODgzMjQ4MDZ8MA&ixlib=rb-4.1.0&q=85";
+import { StoryArcMark } from "@/components/StoryArc";
 
 function MaskedLine({ children, delay, className }: { children: ReactNode; delay: number; className?: string }) {
   return (
@@ -59,13 +57,9 @@ function TiltNotebook() {
         <div className="tape-strip -top-3 left-10 -rotate-6" aria-hidden="true" />
         <div className="tape-strip -top-2 right-12 rotate-3" aria-hidden="true" />
 
-        <div className="overflow-hidden rounded-t-lg">
-          <img
-            src={HERO_IMAGE}
-            alt="A fountain pen resting on a hand-written manuscript notebook"
-            className="h-44 w-full object-cover sm:h-52"
-            loading="eager"
-          />
+        <div className="rounded-t-lg border-b border-craft bg-parchment px-6 pb-2 pt-6 sm:px-8">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-sepia">The shape of every finished draft</p>
+          <StoryArcMark className="mt-2 h-40 w-full sm:h-44" />
         </div>
 
         <div className="ruled-lines relative px-6 pb-8 pt-5 sm:px-8">
@@ -81,7 +75,7 @@ function TiltNotebook() {
 
         <motion.div
           style={{ transform: "translateZ(50px)" }}
-          className="paper-shadow absolute -right-4 top-1/3 w-44 rotate-3 rounded-md border border-craft bg-highlight-soft p-3 sm:-right-8"
+          className="paper-shadow absolute -right-4 top-16 w-44 rotate-3 rounded-md border border-craft bg-highlight-soft p-3 sm:-right-8"
           data-testid="hero-annotation-card"
         >
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-sepia">Beat 4 — Catalyst</p>
@@ -121,7 +115,7 @@ export function Hero({ onBuy }: { onBuy: () => void }) {
           >
             <MaskedLine delay={0.35}>You have a story.</MaskedLine>
             <MaskedLine delay={0.55}>
-              You don&rsquo;t have a <span className="highlight-mark">system</span>.
+              You don&rsquo;t have a <span className="underline-pen">system</span>.
             </MaskedLine>
           </h1>
 
@@ -130,10 +124,11 @@ export function Hero({ onBuy }: { onBuy: () => void }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1, ease: EASE }}
             className="mt-8 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg"
+            data-testid="hero-subhead"
           >
-            Writer&rsquo;s Quest turns scattered ideas into a finished manuscript — four proven story
-            frameworks, one quiet Notion dashboard, a printable workbook, and a beat tracker that
-            tells you exactly what to write next.
+            Four proven story structures — Three-Act, Hero&rsquo;s Journey, Save the Cat, and the Story
+            Circle — turned into one guided, checklist-driven toolkit. Plan your novel or script beat by
+            beat, in Notion, on paper, or in Excel.
           </motion.p>
 
           <motion.p
@@ -154,9 +149,9 @@ export function Hero({ onBuy }: { onBuy: () => void }) {
             <button
               data-testid="hero-cta-button"
               onClick={onBuy}
-              className="group inline-flex h-14 items-center gap-3 rounded-full bg-ink px-8 text-base font-semibold text-parchment transition-all duration-300 hover:-translate-y-1 hover:bg-penred hover:shadow-[0_16px_40px_-10px_rgba(200,59,45,0.5)]"
+              className="group inline-flex h-14 items-center gap-3 rounded-full bg-highlight px-8 text-base font-semibold text-ink transition-all duration-300 hover:-translate-y-1 hover:bg-highlight-deep hover:shadow-[0_16px_40px_-10px_rgba(31,32,34,0.35)]"
             >
-              Get the Complete Blueprint Kit — ₹599
+              Get the Blueprint Kit
               <ArrowRight className="size-5 transition-transform duration-300 group-hover:translate-x-1.5" />
             </button>
             <button
@@ -164,7 +159,7 @@ export function Hero({ onBuy }: { onBuy: () => void }) {
               onClick={() => scrollToSection("preview")}
               className="group inline-flex h-14 items-center gap-2 rounded-full border border-craft-dark bg-paper px-6 text-base font-medium text-ink transition-all duration-300 hover:-translate-y-1 hover:border-ink"
             >
-              Peek inside the kit
+              Peek inside the system
               <ArrowDown className="size-4 transition-transform duration-300 group-hover:translate-y-1" />
             </button>
           </motion.div>
@@ -176,10 +171,10 @@ export function Hero({ onBuy }: { onBuy: () => void }) {
             className="mt-10 flex flex-wrap gap-x-8 gap-y-2 font-mono text-[11px] uppercase tracking-[0.2em] text-sepia"
             data-testid="hero-credibility-markers"
           >
-            <span>4 frameworks, unified</span>
-            <span>120-page workbook</span>
-            <span>Lifetime updates</span>
-            <span>Instant delivery</span>
+            <span>4 proven structures</span>
+            <span>Notion, paper, or Excel</span>
+            <span>₹599 one-time</span>
+            <span>Instant access</span>
           </motion.div>
         </motion.div>
 

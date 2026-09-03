@@ -26,8 +26,8 @@ function SuccessView({ order }: { order: OrderResult }) {
   return (
     <div data-testid="order-success-container" className="pt-1">
       <div className="flex items-center gap-3">
-        <span className="flex size-12 items-center justify-center rounded-full bg-highlight">
-          <PartyPopper className="size-6 text-ink" />
+        <span className="flex size-12 items-center justify-center rounded-full bg-ink">
+          <PartyPopper className="size-6 text-paper" />
         </span>
         <div>
           <p className="font-heading text-2xl font-bold">The kit is yours.</p>
@@ -189,9 +189,9 @@ export function CheckoutDialog({
             <Button
               data-testid="checkout-continue-button"
               onClick={handleSubmit}
-              className="mt-2 h-14 w-full rounded-full bg-ink text-base font-semibold text-parchment transition-colors duration-300 hover:bg-penred"
+              className="mt-2 h-14 w-full rounded-full bg-highlight text-base font-semibold text-ink transition-colors duration-300 hover:bg-highlight-deep"
             >
-              Continue to Payment — ₹599
+              Continue to payment — ₹599
             </Button>
             <p className="flex items-center justify-center gap-1.5 text-center text-xs text-ink-muted">
               <Lock className="size-3" /> Secured by Razorpay · UPI, cards, netbanking

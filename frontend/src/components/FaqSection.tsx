@@ -5,28 +5,24 @@ import { EASE, Reveal, SectionHeading } from "@/components/Reveal";
 
 const FAQS = [
   {
-    q: "How is the kit delivered after I pay?",
-    a: "Instantly. The moment your Razorpay payment succeeds, your confirmation screen unlocks direct access links to the Notion template, PDF workbook, Excel tracker, and videos — and a delivery email lands in your inbox as a backup.",
-  },
-  {
-    q: "Do I need to be a Notion user?",
-    a: "No. The Notion dashboard is the most popular format, but the same system ships as a printable PDF workbook and an Excel/Sheets tracker. Many writers print the workbook and never open Notion at all.",
-  },
-  {
-    q: "I'm a beginner. Is this too advanced for me?",
-    a: "The kit assumes nothing. The walkthrough videos set up your entire system in one sitting, and every worksheet explains its beat in plain language. Beginners get structure; experienced writers get speed.",
-  },
-  {
-    q: "Does it work for screenplays and short stories too?",
-    a: "Yes — that's exactly why four frameworks are unified. Save the Cat and the Story Circle map naturally to screenplays and episodes; Three-Act and the Hero's Journey anchor novels and longer arcs.",
-  },
-  {
-    q: "What if it doesn't work for me?",
-    a: "Write one beat sheet with it. If you don't feel the fog lift, email us within 7 days of purchase for a full refund — no questions, no forms, no guilt trip.",
+    q: "Do I need Notion to use this?",
+    a: "No — the printable workbook and Excel-sheet version work without it, and they're included at the same price.",
   },
   {
     q: "Is this a subscription?",
-    a: "No. ₹599 once, forever. Every future update to the kit — new worksheets, new walkthroughs — lands in your inbox free.",
+    a: "No. One-time purchase, yours to keep.",
+  },
+  {
+    q: "I write for OTT/screen, not novels — is this for me?",
+    a: "Yes — Save the Cat and the Story Circle are screenwriting-grade frameworks, used as-is.",
+  },
+  {
+    q: "What's included?",
+    a: "Everything, at one price: the full Notion system across all 4 frameworks, the printable workbooks, the Excel-sheet version, and the explainer videos.",
+  },
+  {
+    q: "What's your refund policy?",
+    a: "We're finalizing the exact refund terms — this answer is a placeholder, not a promise. The confirmed policy will be published here before launch.",
   },
 ];
 
@@ -40,7 +36,7 @@ export function FaqSection() {
           eyebrow="Chapter 06 — Marginalia"
           title={
             <>
-              Questions from the <span className="highlight-mark">margins</span>.
+              Questions from the <span className="underline-pen">margins</span>.
             </>
           }
           note="asked by real writers, answered in plain ink"

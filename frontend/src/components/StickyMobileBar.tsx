@@ -27,14 +27,12 @@ export function StickyMobileBar({ onBuy }: { onBuy: () => void }) {
           <div className="flex h-[68px] items-center justify-between gap-3 px-4">
             <div>
               <p className="font-heading text-xl font-bold leading-none">₹599</p>
-              <p className="mt-0.5 text-[11px] text-ink-muted">
-                <span className="strike-red">₹2,645</span> · one-time
-              </p>
+              <p className="mt-0.5 text-[11px] text-ink-muted">one-time · instant access</p>
             </div>
             <button
               data-testid="sticky-mobile-buy-button"
               onClick={onBuy}
-              className="flex h-12 min-w-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-ink text-sm font-semibold text-parchment transition-colors duration-300 active:bg-penred"
+              className="flex h-12 min-w-[48px] flex-1 items-center justify-center gap-2 rounded-full bg-highlight text-sm font-semibold text-ink transition-colors duration-300 active:bg-highlight-deep"
             >
               <PenTool className="size-4" />
               Get the Blueprint Kit

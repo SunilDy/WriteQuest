@@ -2,9 +2,9 @@ import { PenTool } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NAV = [
+  { label: "Who it's for", id: "who" },
+  { label: "Peek inside", id: "preview" },
   { label: "Frameworks", id: "frameworks" },
-  { label: "Manifesto", id: "manifesto" },
-  { label: "Preview", id: "preview" },
   { label: "FAQ", id: "faq" },
 ];
 
@@ -47,9 +47,9 @@ export function SiteHeader({ onBuy }: { onBuy: () => void }) {
         <Button
           data-testid="header-buy-button"
           onClick={onBuy}
-          className="h-10 rounded-full bg-ink px-5 text-sm font-semibold text-parchment transition-all duration-300 hover:-translate-y-0.5 hover:bg-penred hover:shadow-lg"
+          className="h-10 rounded-full bg-highlight px-5 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-highlight-deep hover:shadow-lg"
         >
-          Get the Kit — ₹599
+          Get the Blueprint Kit
         </Button>
       </div>
     </header>

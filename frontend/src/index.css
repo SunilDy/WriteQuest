@@ -27,6 +27,7 @@
     --color-craft-dark: #D4C8B5;
     --color-penred: #C83B2D;
     --color-highlight: #F2E29F;
+    --color-highlight-deep: #E9D488;
     --color-highlight-soft: #FFF7CD;
     --color-sepia: #8C6D4F;
     --color-sepia-light: #FAF6EE;
@@ -152,6 +153,23 @@
     background-size: 100% 48%;
     background-position: 0 82%;
     padding: 0 0.08em;
+}
+
+.underline-pen {
+    position: relative;
+    white-space: nowrap;
+}
+
+.underline-pen::after {
+    content: "";
+    position: absolute;
+    left: -1%;
+    right: -1%;
+    bottom: -0.1em;
+    height: 0.16em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M1 6 Q 12 2, 25 6 T 50 6 T 76 5 T 99 6' stroke='%23C83B2D' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
 }
 
 .strike-red {

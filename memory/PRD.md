@@ -17,7 +17,15 @@ Mobile-first high-conversion landing page & digital asset fulfillment system sel
 ## Core Requirements (static)
 Hero hook "You have a story. You don't have a system.", product preview gallery with zoom modals, interactive 4-framework showcase (Three-Act, Hero's Journey, Save the Cat, Story Circle), single-tier ₹599 pricing card, sticky mobile conversion bar (48px+ targets), Razorpay checkout + lead capture, FAQ accordion, order records in MongoDB, delivery log, failed-webhook recovery logging.
 
-## Implemented (2026-09-02)
+## Implemented (2026-09-03 — corrected product description update)
+- Page restructured to the prescribed 8-part order: Hero (story-arc SVG mark as visual anchor, no stock photography) → marquee → Who it's for (3 audiences incl. Pratilipi/Matrubharti) → Peek inside the system (6 dashboard sections in browser chrome + 4 cross-cutting tools, zoom modals) → How you'll actually use it (one story-arc diagram + one-line caption per framework) → Pricing (single ₹599 card, trust microcopy "No subscription · One-time purchase · Instant access", highlighter-fill CTA) → Format flexibility (Notion/paper/Excel blocks with explicit no-parity honesty note) → FAQ (5 prescribed questions) → Final CTA (repeat headline + CTA + microcopy).
+- Copy corrections: hub-and-spoke Notion system (central Writing Dashboard, 6 linked sections, one dedicated plot database per framework, Scene Planner Kanban + Acts views, Quick Action Buttons, Chapters database, per-framework todo lists). Removed: "four modules each with its own dashboard", unified-beat-map claims, auto cross-link claims, printable/Excel parity claims, ₹2,645 value anchor, "120-page workbook", "lifetime updates", invented "7-day refund" and Field Note testimonial.
+- Voice rules applied: sentence case, contractions, numerals as numerals, every CTA names action + outcome ("Get the Blueprint Kit").
+- Highlighter yellow now reserved for buy actions only (hero/header/pricing/sticky/final/checkout CTAs); heading accents use hand-drawn red pen underlines.
+- Refund FAQ answer is a PLACEHOLDER — real policy must be confirmed before publishing.
+- Backend ASSETS copy updated to corrected product (Notion Writing Dashboard, Printable Workbooks, Excel-Sheet Version, Explainer Videos).
+
+## Implemented (2026-09-02 — initial build)
 - Kinetic hero: masked line-by-line reveal, 3D mouse-tilt notebook card, scroll parallax, washi tape, red margin annotations, credibility markers.
 - Slow editorial marquee (72s) with craft quotes.
 - Interactive framework showcase: 4 tabs, animated beat panels, per-framework red margin notes.

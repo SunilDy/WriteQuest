@@ -2,12 +2,13 @@ import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Hero } from "@/components/Hero";
 import { EditorialMarquee } from "@/components/EditorialMarquee";
+import { WhoItsFor } from "@/components/WhoItsFor";
+import { PeekInside } from "@/components/PeekInside";
 import { FrameworkShowcase } from "@/components/FrameworkShowcase";
-import { ManifestoChapters } from "@/components/ManifestoChapters";
-import { ProductGallery } from "@/components/ProductGallery";
-import { WhatsInside } from "@/components/WhatsInside";
 import { PricingSection } from "@/components/PricingSection";
+import { FormatFlexibility } from "@/components/FormatFlexibility";
 import { FaqSection } from "@/components/FaqSection";
+import { FinalCta } from "@/components/FinalCta";
 import { StickyMobileBar } from "@/components/StickyMobileBar";
 import { SiteFooter } from "@/components/SiteFooter";
 import { CheckoutDialog } from "@/components/CheckoutDialog";
@@ -22,12 +23,13 @@ export default function Home() {
       <main>
         <Hero onBuy={openCheckout} />
         <EditorialMarquee />
+        <WhoItsFor />
+        <PeekInside />
         <FrameworkShowcase />
-        <ManifestoChapters />
-        <ProductGallery />
-        <WhatsInside />
         <PricingSection onBuy={openCheckout} />
+        <FormatFlexibility />
         <FaqSection />
+        <FinalCta onBuy={openCheckout} />
       </main>
       <SiteFooter />
       <StickyMobileBar onBuy={openCheckout} />
