@@ -22,6 +22,7 @@ Hero hook "You have a story. You don't have a system.", product preview gallery 
 - New lib/sheets.py: service-account Google Sheets appender (google-api-python-client + google-auth). Tabs: `orders` (created/paid/failed rows: timestamp, event, order ID, payment ID, email, amount in paise), `leads`, `webhook_logs`.
 - Orders held in memory for the running process (signature verification + idempotent success screen); the Google Sheet is the durable record. Sheet appends never block or break checkout (try/except + asyncio.to_thread).
 - Until GOOGLE_SERVICE_ACCOUNT_JSON + GOOGLE_SHEETS_SPREADSHEET_ID are set in backend/.env, events fall back to server logs (`[sheet:tab] ...` lines) — verified working.
+- 2026-09-03: ACTIVATED. Service account `writequest-sales-log@writequest-507511.iam.gserviceaccount.com`, spreadsheet `1xeza6aHtkAbb4PcrKO9PovfmcSY2O5Rklh77LGrQZsA`, tabs orders/leads/webhook_logs. Fixed tab typo via API rename (webhooks_logs → webhook_logs). Verified rows landing in all 3 tabs, including webhook-driven "paid (webhook)" recovery.
 - `/api/` now reports `order_log: google-sheets | server-logs-only`.
 
 ## Implemented (2026-09-03 — corrected product description update)
